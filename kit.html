@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>무료 토리 시뮬 따라하기 키트 | AI Build Master</title>
+<meta name="description" content="로봇 1도 몰라도 됩니다. 로봇·코딩 경험 0인 대표가 AI 둘과 도토리 로봇 토리를 키운 방법을 그대로 따라 해 볼 수 있는 무료 키트.">
+<link rel="icon" href="assets/media/abm_profile.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/media/abm_profile.png" alt="">AI <b>Build</b> Master</a>
+  <ul><li><a href="index.html#projects">프로젝트</a></li><li><a href="tori.html">토리</a></li><li><a href="index.html#channel">유튜브</a></li></ul>
+  <a class="btn btn-gold" href="#apply" aria-current="page">무료 키트 받기</a>
+</div></nav>
+
+<section><div class="wrap">
+  <div class="grid split" style="grid-template-columns:1.1fr .9fr;gap:48px;align-items:start">
+    <div>
+      <p class="kicker">Free Kit · v0</p>
+      <h2 style="font-size:clamp(30px,4.4vw,46px)">로봇 1도 몰라도 됩니다<br><span style="color:var(--gold)">토리 시뮬 따라하기 키트</span></h2>
+      <p class="lead" style="margin:16px 0 30px">로봇·코딩 경험 0인 대표가 AI 둘과 도토리 로봇 '토리'를 키운 방법을, 그대로 따라 해 볼 수 있게 묶었어요.</p>
+      <ul class="kit-list">
+        <li><em>📋</em><div><h3>어디서부터 시작?</h3><p>처음 하는 사람을 위한 한 장 체크리스트</p></div></li>
+        <li><em>🦴</em><div><h3>강화학습 한 장 요약</h3><p>"간식 훈련"으로 이해하는 상태·행동·보상</p></div></li>
+        <li><em>🎬</em><div><h3>토리 흑역사 &amp; 성공 영상 6쌍</h3><p>엉덩이로 앉아 버린 토리부터 일어서는 토리까지</p></div></li>
+        <li><em>✏️</em><div><h3>보상 설계 워크시트</h3><p>"내 로봇에게 줄 점수 3가지"와 로봇이 쓸 꼼수 예상하기</p></div></li>
+        <li><em>💬</em><div><h3>AI에게 실제로 한 질문 20개</h3><p>모르는 사람이 AI에게 묻는 법</p></div></li>
+        <li><em>🎥</em><div><h3>30분 미니 강의 <span class="tag soon" style="margin:0 0 0 6px;vertical-align:middle">준비 중</span></h3><p>위 다섯 가지를 대표가 직접 설명하는 영상 · 녹화가 끝나면 메일로 보내 드려요</p></div></li>
+      </ul>
+    </div>
+
+    <div id="apply" class="form-box">
+      <div class="draft" id="draft" hidden>준비 중 — 신청 칸 연결 작업 중이에요. 곧 열려요.</div>
+      <h3 style="font-size:22px">무료 키트 받기</h3>
+      <p class="muted" style="margin:6px 0 0;font-size:14px">메일로 키트 링크를 바로 보내 드려요.</p>
+      <form id="kitform">
+        <label for="em">이메일</label><input id="em" type="email" placeholder="you@example.com" required>
+        <label for="nm">이름 (또는 별명)</label><input id="nm" type="text" placeholder="메일에서 ○○님으로 불러 드려요" required maxlength="40">
+        <label for="who">누구를 위한 키트인가요? (선택)</label>
+        <select id="who"><option value="">고르기</option><option>본인</option><option>자녀</option><option>학생</option><option>직원</option></select>
+        <input id="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <label class="check"><input id="agree" type="checkbox" required><span>[필수] 개인정보 수집·이용에 동의합니다.</span></label>
+        <label class="check"><input id="ads" type="checkbox"><span>[선택] 강의·워크숍 안내(광고성 정보)를 받겠습니다.</span></label>
+        <details><summary>동의 내용 보기</summary><pre>[필수] 개인정보 수집·이용 동의
+1. 수집하는 항목: 이메일 주소, 이름(또는 별명), 관심 대상(선택)
+2. 수집·이용 목적: 무료 키트 전달, 토리 제작 소식 메일 발송
+3. 보유·이용 기간: 구독을 끊을 때까지. 구독을 끊으면 지체 없이 파기합니다.
+4. 동의를 거부할 권리: 동의하지 않으실 수 있어요. 다만 동의하지 않으시면 키트를 메일로 받으실 수 없어요.
+
+[선택] 강의·워크숍 안내(광고성 정보) 수신 동의
+토리 강화학습 강의 대기자 모집, 학교·회사 워크숍, AI 협업 도입 상담 안내를 이메일로 받습니다. 동의하지 않으셔도 키트와 토리 제작 소식은 그대로 받으실 수 있어요.
+
+운영: AI Build Master · 문의: lucaskim72@gmail.com</pre></details>
+        <button class="btn btn-gold" id="send" type="submit">무료 키트 받기 🌰</button>
+        <p class="note">매주 오는 메일이 아니에요. 토리가 새로 뭔가 할 때만 갑니다.<br>언제든 메일 맨 아래에서 바로 구독을 끊을 수 있어요.</p>
+      </form>
+      <div id="done" hidden style="text-align:center;padding:30px 0 10px">
+        <div style="font-size:48px">🌰</div>
+        <h3 style="font-size:22px;margin-top:8px">신청됐어요!</h3>
+        <p class="muted" style="margin:10px 0 0">방금 보낸 메일에서 <b style="color:var(--ink)">키트 열기</b>를 눌러 주세요.<br>몇 분 안에 안 오면 스팸함·프로모션함도 봐 주세요.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 AI Build Master</span><span>키트에는 토리 자료와 직접 쓴 글만 들어 있어요.</span></div></footer>
+<script>
+// 신청 → Apps Script 웹 앱 (apps_script_kit.gs). 비어 있으면 '준비 중'
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbx5ssJb_Z13Zqj5noJI9zSnXAN4_2YVDsjbvfsafnUiY19pZy3oA3JsRZotpNnIerXO/exec";
+const f = document.getElementById("kitform"), $ = id => document.getElementById(id);
+if (!ENDPOINT) { $("draft").hidden = false; $("send").disabled = true; }
+f.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!ENDPOINT) return;
+  const q = new URLSearchParams(location.search);
+  const data = { email: $("em").value.trim(), name: $("nm").value.trim(), who: $("who").value,
+    agree: $("agree").checked, ads: $("ads").checked, hp: $("hp").value,
+    source: [q.get("utm_source"), q.get("utm_campaign")].filter(Boolean).join("/") || document.referrer || "direct" };
+  $("send").disabled = true; $("send").textContent = "보내는 중…";
+  try {
+    await fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+    f.hidden = true; $("done").hidden = false;
+  } catch (err) {
+    $("send").disabled = false; $("send").textContent = "연결이 끊겼어요 — 다시 누르기";
+  }
+});
+</script>
+</body>
+</html>

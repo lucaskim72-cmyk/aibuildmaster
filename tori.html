@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>토리 — 도토리 탐험가 로봇 | AI Build Master</title>
+<meta name="description" content="비전공자가 AI와 함께 설계하고 강화학습으로 걷게 한 도토리 로봇 토리. 탄생기 영상, 배운 동작 8가지, 진행 기록.">
+<link rel="icon" href="assets/media/abm_profile.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/media/abm_profile.png" alt="">AI <b>Build</b> Master</a>
+  <ul><li><a href="index.html#projects">프로젝트</a></li><li><a href="tori.html" aria-current="page">토리</a></li><li><a href="index.html#channel">유튜브</a></li></ul>
+  <a class="btn btn-gold" href="kit.html">무료 키트 받기</a>
+</div></nav>
+
+<section id="birth"><div class="wrap">
+  <div class="sec-head"><p class="kicker">Project · Robot 01</p><h2>토리 — 살아 있는 친구를 만들고 싶었어요</h2>
+    <p>사람 흉내 내는 로봇 말고, 귀엽고 스스로 걷는 친구. 그림 한 장에서 시작해 3D 몸을 만들고, 시뮬레이션 속에서 수천 번 넘어지며 걸음을 배웠어요.</p></div>
+  <div class="player"><video src="assets/media/birth_full.mp4" controls preload="metadata" playsinline poster="assets/media/birth_poster.jpg"></video></div>
+  <p class="muted" style="font-size:14px;margin-top:10px">토리 탄생기 (98초) · 6장 걸음과 엔딩의 돌아보기·인사는 학습한 정책이 물리 시뮬레이션에서 실제로 움직인 기록이에요.</p>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="sec-head"><p class="kicker">Shorts · 6 Chapters</p><h2>장별로 보기</h2><p>눌러서 재생해 보세요. 유튜브에는 일주일에 2~3편씩 올라가요.</p></div>
+  <div class="grid g6">
+    <div class="chapter"><video src="assets/media/ch01.mp4" poster="assets/media/ch01.jpg" controls preload="none" playsinline></video><div class="body"><small>CHAPTER 01</small><h3>기획 의도</h3></div></div>
+    <div class="chapter"><video src="assets/media/ch02.mp4" poster="assets/media/ch02.jpg" controls preload="none" playsinline></video><div class="body"><small>CHAPTER 02</small><h3>디자인</h3></div></div>
+    <div class="chapter"><video src="assets/media/ch03.mp4" poster="assets/media/ch03.jpg" controls preload="none" playsinline></video><div class="body"><small>CHAPTER 03</small><h3>스펙</h3></div></div>
+    <div class="chapter"><video src="assets/media/ch04.mp4" poster="assets/media/ch04.jpg" controls preload="none" playsinline></video><div class="body"><small>CHAPTER 04</small><h3>뼈대 조립</h3></div></div>
+    <div class="chapter"><video src="assets/media/ch05.mp4" poster="assets/media/ch05.jpg" controls preload="none" playsinline></video><div class="body"><small>CHAPTER 05</small><h3>표피 입히기</h3></div></div>
+    <div class="chapter"><video src="assets/media/ch06.mp4" poster="assets/media/ch06.jpg" controls preload="none" playsinline></video><div class="body"><small>CHAPTER 06</small><h3>첫걸음</h3></div></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="grid split" style="grid-template-columns:1fr 1fr;gap:48px">
+    <div>
+      <div class="sec-head"><p class="kicker">Skills</p><h2>스스로 배운 동작 8가지</h2><p>아무도 걷는 법을 알려 주지 않았어요. 점수 규칙만 정해 주고, 로봇이 넘어지고 또 넘어지며 찾아냈어요.</p></div>
+      <div class="moves">
+        <span><i>T01</i>걷기</span><span><i>T02</i>일어서기</span><span><i>T03</i>인사</span><span><i>T04</i>흔들기 춤</span>
+        <span><i>T05</i>회전 춤</span><span><i>T06</i>트위스트</span><span><i>T07</i>눕기</span><span><i>T08</i>턱 넘기</span>
+      </div>
+      <div class="grid g3 keep3" style="margin-top:28px">
+        <div class="stat"><b>26<small style="font-size:16px"> cm</small></b><span>키</span></div>
+        <div class="stat"><b>0.7<small style="font-size:16px"> kg</small></b><span>무게</span></div>
+        <div class="stat"><b>13</b><span>관절</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-head"><p class="kicker">Log</p><h2>진행 기록</h2></div>
+      <ol class="timeline">
+        <li><time>2026.10 초</time><p>캐릭터 시안 → 도토리 탐험가로 결정, 3D 몸 설계</p></li>
+        <li><time>2026.10</time><p>엉덩이로 앉아 버린 토리 → 점수 규칙을 고쳐 일어서기 성공</p></li>
+        <li><time>2026.10.13</time><p>최종 몸 확정, 동작 정책 졸업 · 조립 설명서 v1.0</p></li>
+        <li><time>2026.10.31</time><p>1 cm 러그 앞에서 멈춤 → 턱 넘기 학습으로 넘음 (T08)</p></li>
+        <li><time>2026.11.05</time><p>토리 탄생기 3D 영상 완성</p></li>
+        <li class="next"><time>다음</time><p>모터 도착 → 3D 프린터 출력 → 실물 조립 → 시뮬 속 토리와 진짜 토리 비교</p></li>
+      </ol>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="band">
+    <div><p class="kicker">Free Kit</p><h2>토리처럼, 직접 가르쳐 볼래요?</h2><p>체크리스트, 강화학습 한 장 요약, 실패·성공 영상 6쌍, 보상 설계 워크시트를 무료로 드려요.</p></div>
+    <a class="btn btn-gold" href="kit.html">무료 키트 받기 🌰</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 AI Build Master</span><span>토리는 직접 설계한 로봇이며, 화면은 MuJoCo 물리 시뮬레이션과 블렌더로 만들었습니다.</span></div></footer>
+<script>
+// 장별 쇼츠: 하나를 재생하면 다른 것은 멈춤
+document.querySelectorAll(".chapter video").forEach(v=>v.addEventListener("play",()=>document.querySelectorAll("video").forEach(o=>{if(o!==v&&!o.muted)o.pause()})));
+</script>
+</body>
+</html>
