@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>토리 부품 목록 | AI Build Master</title>
+<meta name="description" content="도토리 로봇 토리를 만들기 위해 실제로 산 부품·공구 목록. 모터, 3D 프린터와 재료, 공구, 나사까지 가격과 고른 이유를 함께 적었어요.">
+<link rel="icon" href="assets/media/abm_profile.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.parts{width:100%;border-collapse:collapse;font-size:15px}
+.parts th{font:600 12px var(--f-mono);letter-spacing:1px;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.parts td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.parts td small{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.parts .num{font:600 14px var(--f-mono);white-space:nowrap;text-align:right}
+.parts a{color:var(--cyan)}
+.parts td:nth-child(2),.parts td:last-child{white-space:nowrap}
+.parts .cp{color:var(--muted);font-size:13px;white-space:nowrap}
+.parts .cpl{display:inline-block;font:700 13px var(--f-ko);color:#111827;background:var(--gold);border-radius:6px;padding:5px 10px;white-space:nowrap}
+.parts .cpl:hover{filter:brightness(1.08)}
+.sec-head .disc,.disc{margin:14px 0 18px;padding:12px 16px;border:2px solid var(--gold);border-radius:10px;background:#facc1514;color:var(--gold);font:700 17px/1.5 var(--f-ko);max-width:none}   /* 공정위 · 쿠팡 가이드: 본문 첫 부분, 본문보다 크고 눈에 띄는 색 */
+.same{display:inline-block;margin-left:6px;font:600 11px var(--f-mono);color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.sum{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 28px}
+.sum div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;min-width:150px}
+.sum b{display:block;font:700 22px var(--f-en);color:var(--gold)}
+.sum span{color:var(--muted);font-size:13px}
+.warn{border-left:3px solid var(--gold);background:#facc1510;padding:14px 18px;border-radius:0 10px 10px 0;margin:0 0 28px;font-size:15px}
+.warn li{margin:4px 0}
+.part-sec{margin-top:44px}
+.part-sec h3{font-size:20px;margin:0 0 6px}
+.part-sec > p{color:var(--muted);margin:0 0 14px;font-size:15px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:640px){.parts{font-size:14px}.parts th:nth-child(3),.parts td:nth-child(3){display:none}.parts td,.parts th{padding:12px 8px}.parts td:first-child{min-width:150px}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/media/abm_profile.png" alt="">AI <b>Build</b> Master</a>
+  <ul><li><a href="index.html#projects">프로젝트</a></li><li><a href="tori.html">토리</a></li><li><a href="index.html#channel">유튜브</a></li></ul>
+  <a class="btn btn-gold" href="kit.html">무료 키트 받기</a>
+</div></nav>
+
+<section><div class="wrap">
+  <div class="sec-head"><p class="kicker">Tori · Parts List</p><h2>토리 부품 목록 🌰</h2>
+    <p class="disc">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+    <p>로봇을 한 번도 만들어 본 적 없는 사람이 토리를 위해 실제로 산 것들이에요. 쉬운 설명과 고른 이유를 함께 적었어요. 토리는 아직 실물 조립 전이라, 조립하면서 바뀌는 것은 이 페이지에 계속 고쳐 둘게요. "쿠팡에서 보기" 링크로 사셔도 가격은 똑같고, 받은 수수료는 토리 부품과 다음 영상에 써요.</p></div>
+
+  <div class="sum">
+    <div><b>약 80만 원</b><span>프린터 없이 (출력 대행)</span></div>
+    <div><b>약 200만 원</b><span>3D 프린터 포함</span></div>
+    <div><b>13개</b><span>모터 (다리 10 · 머리 3)</span></div>
+  </div>
+
+  <div class="warn"><b>⚠ 사기 전에 꼭 보세요</b>
+    <ul>
+      <li>다리 모터 <b>XL330-M288-T</b>는 최대 6 V예요. 7.4 V 배터리를 바로 꽂으면 고장 나요. 시험할 때는 5 V 어댑터만 써요.</li>
+      <li>모델 이름 끝이 <b>-T</b>(TTL 통신)인지 확인하세요. -R이나 다른 숫자면 다른 모터예요.</li>
+      <li>18650 배터리는 <b>정품만</b>(삼성 35E · LG MJ1). 싼 무명 셀은 용량 속임이 있고 불이 날 위험도 있어요.</li>
+    </ul>
+  </div>
+  <p class="muted" style="font-size:13px;margin:-14px 0 0">가격은 2026년 10월에 직접 확인한 값이에요(부가세 포함, ≈ 표시는 시세). 모터 · 필라멘트는 1개 값, 나머지는 줄에 적힌 묶음 값이에요. 지금 가격은 판매처에서 확인해 주세요.</p>
+
+  <div class="part-sec"><h3>① 움직이는 부품 — 모터와 연결판</h3><p>토리의 관절 13개를 움직이는 모터와, 컴퓨터에서 모터에 명령을 보내는 판이에요.</p>
+  <div class="tw"><table class="parts">
+    <tr><th>부품</th><th>수량</th><th>왜 이걸?</th><th>값 (원)</th><th>어디서</th></tr>
+    <tr><td><b>다이나믹셀 XL330-M288-T</b><small>다리 모터</small></td><td>10 + 예비 1</td><td>작고 가벼운데 힘이 충분해요. 시뮬레이션도 이 모터의 힘·속도에 맞춰 학습했어요.</td><td class="num">26,400</td><td><a href="https://www.robotis.com/shop/item.php?it_id=902-0163-000" target="_blank" rel="noopener">로보티즈</a></td></tr>
+    <tr><td><b>Feetech SCS0009</b><small>머리 모터 (돌기 · 끄덕 · 갸웃)</small></td><td>3 + 예비 1</td><td>머리는 가벼워서 작은 모터면 돼요. 국내엔 파는 곳이 없어 해외에서 샀어요.</td><td class="num">≈ 12,600</td><td><a href="https://www.seeedstudio.com/Feetech-SCS0009-Servo-p-6535.html" target="_blank" rel="noopener">Seeed</a></td></tr>
+    <tr><td><b>FPX330-H101 4개 세트</b><small>모터 뒤쪽 받침 (아이들러)</small></td><td>2세트</td><td>다리 관절 8곳에서 모터 반대쪽을 받쳐 줘요.</td><td class="num">10,890</td><td><a href="https://www.robotis.com/shop/item.php?it_id=903-0302-000" target="_blank" rel="noopener">로보티즈</a></td></tr>
+    <tr><td><b>U2D2</b> + <b>U2D2 PHB Set</b><small>PC ↔ 다리 모터 통역기 + 전원판</small></td><td>1 + 1</td><td>모터 번호를 정하고 하나씩 시험할 때 꼭 필요해요.</td><td class="num">58,080</td><td><a href="https://www.robotis.com/shop/item.php?it_id=902-0132-000" target="_blank" rel="noopener">로보티즈</a></td></tr>
+    <tr><td><b>Waveshare 서보 드라이버 보드</b><small>PC ↔ 머리 모터</small></td><td>1</td><td>머리 모터는 다리 모터와 쓰는 말이 달라서 따로 필요해요.</td><td class="num">10,032</td><td><a href="https://www.eleparts.co.kr/goods/view?no=18619565" target="_blank" rel="noopener">엘레파츠</a></td></tr>
+    <tr><td><b>어댑터 5 V 4 A</b> · <b>6 V 3 A</b><small>시험용 전원 (플러그 5.5 mm, 안쪽 2.1~2.5 mm)</small></td><td>1 + 1</td><td>5 V는 다리 모터, 6 V는 머리 보드에만. 헷갈리지 않게 이름표를 붙여요.</td><td class="num">≈ 16,460</td><td><a href="https://www.eleparts.co.kr/goods/view?no=8181970" target="_blank" rel="noopener">엘레파츠</a></td></tr>
+  </table></div></div>
+
+  <div class="part-sec"><h3>② 몸 — 3D 프린터와 재료</h3><p>뼈대와 도토리 표피를 직접 뽑아요. 출력 대행을 쓰면 이 칸은 빼도 돼요.</p>
+  <div class="tw"><table class="parts">
+    <tr><th>부품</th><th>수량</th><th>왜 이걸?</th><th>값 (원)</th><th>어디서</th></tr>
+    <tr><td><b>Bambu Lab P2S AMS Combo</b><small>3D 프린터 + 4색 자동 공급기</small></td><td>1</td><td>표피를 여러 색으로 한 번에 뽑을 수 있어요. 시제품을 여러 번 다시 뽑을 거라 대행보다 나아요.</td><td class="num">1,099,000</td><td><a href="https://kr.store.bambulab.com/products/p2s" target="_blank" rel="noopener">뱀부랩</a></td></tr>
+    <tr><td><b>PETG Basic 1 kg</b><small>노랑 · 다크 브라운 · 검정</small></td><td>각 1</td><td>PLA보다 질기고 열에 강해요. 검정은 뼈대, 노랑·갈색은 표피.</td><td class="num">≈ 19,000</td><td><a href="https://kr.store.bambulab.com/products/petg-basic" target="_blank" rel="noopener">뱀부랩</a></td></tr>
+    <tr><td><b>PETG 1 kg 초록</b><small>플라스틱 스풀</small></td><td>1</td><td>뱀부 PETG Basic에 초록이 없어서 다른 회사 것으로. 종이 스풀은 AMS에서 미끄러져요.</td><td class="num">≈ 20,000</td><td class="cp">쿠팡</td></tr>
+    <tr><td><b>이소프로필 알코올 · 글루스틱</b><small>출력판 닦기 · 판 보호</small></td><td>1 + 1</td><td>판에 기름이 있으면 출력물이 떨어져요.</td><td class="num">≈ 12,400</td><td class="cp">쿠팡</td></tr>
+  </table></div></div>
+
+  <div class="part-sec"><h3>③ 공구 — 한 번 사면 계속 써요</h3>
+  <div class="tw"><table class="parts">
+    <tr><th>부품</th><th>수량</th><th>왜 이걸?</th><th>값 (원)</th><th>어디서</th></tr>
+    <tr><td><b>인두기 TS101</b> + <b>열인서트 팁</b><small>65 W, USB-C PD 충전기로 켜요</small></td><td>1</td><td>출력물에 황동 나사 구멍(인서트)을 녹여 넣을 때 써요.</td><td class="num">≈ 104,370</td><td><a class="cpl" href="https://link.coupang.com/a/isBmwuIoSW" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+    <tr><td><b>디지털 캘리퍼스 150 mm</b><span class="same">같은 종류</span><small>0.01 mm 표시 · 링크는 LOFTYLIFE</small></td><td>1</td><td>출력한 구멍이 0.1 mm까지 맞는지 재요. 첫 시험 조각부터 바로 필요해요.</td><td class="num">≈ 17,850</td><td><a class="cpl" href="https://link.coupang.com/a/isCbniWVJQ" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+    <tr><td><b>디지털 멀티미터 UNI-T</b><span class="same">같은 계열</span><small>DC 10 A 칸 필수 · 산 것 UT33B+ / 링크는 UT33D+</small></td><td>1</td><td>모터가 실제로 얼마나 전기를 먹는지 재요.</td><td class="num">≈ 20,380</td><td><a class="cpl" href="https://link.coupang.com/a/isCGyGg2IC" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+    <tr><td><b>정밀 드라이버 세트</b><small>샤오미 미지아 24pcs · PH0 · PH1 · 육각 1.5/2/2.5</small></td><td>1</td><td>모터 나사와 작은 볼트용.</td><td class="num">18,840</td><td><a class="cpl" href="https://link.coupang.com/a/isCMkNGwG4" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+    <tr><td><b>전자저울 0.1 g · 최대 3 kg</b><span class="same">같은 종류</span><small>모터 힘 시험대 · 꼭 2 kg 이상 (팔 5 cm일 때 약 1.06 kg까지 눌러요)</small></td><td>1</td><td>모터 팔이 저울을 누르는 힘으로 "시뮬레이션만큼 힘을 내나"를 확인해요.</td><td class="num">≈ 25,000</td><td><a class="cpl" href="https://link.coupang.com/a/isBY4qh7QG" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+    <tr><td><b>분동 세트 · 미니 바이스 50 mm</b><small>저울 확인용 무게 · 모터 고정</small></td><td>1 + 1</td><td>분동 대신 볼트 봉지를 재서 써도 돼요.</td><td class="num">≈ 27,920</td><td class="cp">쿠팡</td></tr>
+    <tr><td><b>실납 · 인두 받침 · 팁 클리너</b></td><td>1식</td><td>납땜 기본.</td><td class="num">16,230</td><td class="cp">쿠팡</td></tr>
+  </table></div></div>
+
+  <div class="part-sec"><h3>④ 나사와 작은 부품</h3>
+  <div class="tw"><table class="parts">
+    <tr><th>부품</th><th>수량</th><th>왜 이걸?</th><th>값 (원)</th><th>어디서</th></tr>
+    <tr><td><b>M2 탭핑 나사 · M2 볼트 모듬</b></td><td>1 + 1</td><td>출력 브래킷을 모터 몸통에 고정해요.</td><td class="num">≈ 17,680</td><td class="cp">쿠팡 · 알리</td></tr>
+    <tr><td><b>M3 황동 열인서트 M3×5×5</b><small>바깥지름 5 · 길이 5 mm</small></td><td>100개</td><td>표피와 뼈대를 여러 번 열고 닫아도 구멍이 망가지지 않아요.</td><td class="num">9,890</td><td><a class="cpl" href="https://link.coupang.com/a/isCY8Uv55w" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+    <tr><td><b>M3 볼트 모듬</b><small>둥근머리 ×6 · ×8 · ×10 · ×14</small></td><td>1</td><td>표피 ↔ 뼈대, 몸 앞 · 뒤.</td><td class="num">≈ 8,780</td><td class="cp">알리</td></tr>
+    <tr><td><b>LED 5 mm 앰버 확산형</b> + <b>저항 270 Ω</b></td><td>10 + 10</td><td>토리의 빛나는 눈. 저항이 없으면 LED가 타요.</td><td class="num">≈ 9,900</td><td class="cp">쿠팡</td></tr>
+    <tr><td><b>네오디뮴 자석 6×3 mm</b></td><td>20</td><td>등 쪽 배터리 문을 붙여요.</td><td class="num">2,400</td><td class="cp">쿠팡</td></tr>
+    <tr><td><b>순간접착제 젤 · 나사 풀림 방지제(중강도)</b></td><td>1 + 1</td><td>풀림 방지제는 금속끼리만, 플라스틱엔 바르지 않아요.</td><td class="num">≈ 13,340</td><td class="cp">쿠팡</td></tr>
+  </table></div></div>
+
+  <div class="part-sec"><h3>🎥 영상 찍는 장비</h3><p>토리를 만드는 데 필요한 부품은 아니에요. 실물 조립 과정을 찍으려고 준비한 장비예요. 써 본 뒤 후기를 덧붙일게요.</p>
+  <div class="tw"><table class="parts">
+    <tr><th>장비</th><th>수량</th><th>왜 이걸?</th><th>값 (원)</th><th>어디서</th></tr>
+    <tr><td><b>울란지 MT85</b><small>맥세이프 블루투스 삼각대 (셀카봉 겸용)</small></td><td>1</td><td>휴대폰을 자석으로 붙이고, 리모컨으로 손 안 대고 조립 장면을 찍어요.</td><td class="num">34,000</td><td><a class="cpl" href="https://link.coupang.com/a/isC9I7gNhY" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+    <tr><td><b>DJI Mic Mini</b><small>송신기 2 + 수신기 1 + 충전 케이스</small></td><td>1</td><td>조립하면서 설명하는 목소리를 깨끗하게 녹음해요.</td><td class="num">77,158</td><td><a class="cpl" href="https://link.coupang.com/a/isDcPpwgKq" target="_blank" rel="sponsored noopener">쿠팡에서 보기 ↗</a></td></tr>
+  </table></div></div>
+
+  <div class="part-sec"><h3>⑤ 다음에 살 것 — 로봇 안에 들어가는 부품</h3><p>모터 시험과 설계 마무리가 끝나면 사요. 실제로 산 뒤 값과 함께 채워 둘게요.</p>
+  <div class="tw"><table class="parts">
+    <tr><th>부품</th><th>쉬운 설명</th></tr>
+    <tr><td><b>Raspberry Pi Zero 2 W</b> + microSD 32 GB</td><td>토리의 두뇌 — 학습한 정책을 돌려요</td></tr>
+    <tr><td><b>IMU BNO085</b></td><td>몸이 얼마나 기울었는지 느끼는 센서</td></tr>
+    <tr><td><b>18650 정품 2개</b> + 홀더 · 보호회로 · 충전기</td><td>배터리 (삼성 35E · LG MJ1)</td></tr>
+    <tr><td><b>5 V 강압 컨버터</b> (모터용 · 두뇌용)</td><td>배터리 전기를 모터·두뇌에 맞게 낮춰요</td></tr>
+    <tr><td>전원 스위치 · 배선 · 커넥터 · 보드 기둥</td><td>조립하며 정해요</td></tr>
+  </table></div></div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="band">
+    <div><p class="kicker">Free Kit</p><h2>부품을 사기 전에, 시뮬레이션부터</h2><p>토리도 실물 전에 컴퓨터 속에서 먼저 걸음을 배웠어요. 무료 키트로 같은 순서를 따라가 보세요.</p></div>
+    <a class="btn btn-gold" href="kit.html">무료 키트 받기 🌰</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 AI Build Master</span><span>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. "같은 종류" 표시는 직접 산 상품이 품절이거나 다른 곳에서 산 경우, 규격이 같은 상품이에요.</span></div></footer>
+</body>
+</html>
