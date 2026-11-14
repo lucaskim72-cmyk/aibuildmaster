@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>직접 해 보기 — 강화학습 실습 기록 | AI Build Master</title>
+<meta name="description" content="비전공자가 강화학습을 직접 돌려 본 기록. 2초 만에 넘어지던 휴머노이드가 57m를 걷기까지, 점수표를 한 줄씩 고친 과정을 같은 카메라로 비교해 보여 드려요.">
+<link rel="icon" href="assets/media/abm_profile.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/media/abm_profile.png" alt="">AI <b>Build</b> Master</a>
+  <ul><li><a href="index.html#projects">프로젝트</a></li><li><a href="tori.html">토리</a></li><li><a href="dream.html">AI가 꿈을 꾼다</a></li><li><a href="practice.html" aria-current="page">직접 해 보기</a></li><li><a href="index.html#channel">유튜브</a></li></ul>
+  <a class="btn btn-yt" href="https://www.youtube.com/@AIBuildMasterKR?sub_confirmation=1" target="_blank" rel="noopener" title="AI Build Master 유튜브 채널 구독">▶ 구독</a>
+  <a class="btn btn-gold" href="kit.html">무료 키트 받기</a>
+</div></nav>
+
+<section id="navlab"><div class="wrap">
+  <div class="grid split" style="grid-template-columns:1fr minmax(0,520px);gap:48px;align-items:center">
+    <div>
+      <div class="sec-head"><p class="kicker">Lab · 🧪 브라우저에서 바로</p><h2>토리 길 찾기 실험실</h2>
+        <p>설치도, 그래픽카드도 필요 없어요. 거실 바닥에 물건을 놓고 깃발을 옮긴 뒤 <b>학습 시작</b>을 누르면, 도토리 로봇 토리가 브라우저 안에서 강화학습(PPO)으로 길을 배워요.</p></div>
+      <p class="muted">처음엔 이리저리 부딪히던 토리가 몇 분 만에 물건을 피해 깃발까지 가요. 부딪힘 감점 · 도착 점수 · 탐험 정도 같은 <b>학습 조건</b>도 직접 바꿔 볼 수 있어서, 강화학습을 처음 해 보는 분께 딱 맞는 연습장이에요.</p>
+      <div class="grid g2" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0">
+        <div class="stat"><b>10</b><span>토리가 고르는 명령 (0.2초마다)</span></div>
+        <div class="stat"><b>~2분</b><span>새 두뇌가 길을 찾기까지 (PC 기준)</span></div>
+      </div>
+      <a class="btn btn-gold" href="lab/nav/">▶ 실험실 열기</a>
+      <p class="muted" style="font-size:13px;margin-top:12px">PC 크롬·엣지 권장 · 휴대폰에서는 느릴 수 있어요. 몸 반응은 MuJoCo 속 토리에서 잰 값을 쓰는 2D 연습장이에요.</p>
+    </div>
+    <a href="lab/nav/"><img class="thumb" style="border-radius:16px;border:1px solid var(--line)" src="assets/media/navlab.jpg" alt="토리 길 찾기 실험실 화면"></a>
+  </div>
+</div></section>
+
+<section id="hum01" style="padding-top:0"><div class="wrap">
+  <div class="grid split" style="grid-template-columns:minmax(0,380px) 1fr;gap:48px;align-items:center">
+    <div class="vplayer" data-yt="YMK6X2tedkc" data-at="2026-12-01T09:00:00Z" data-title="2초 만에 넘어지던 AI, 57m를 걷다 — 직접 해 보기 01"><img src="assets/media/hum01_v.jpg" alt="2초 만에 넘어지던 AI, 57m를 걷다 — 썸네일"></div>
+    <div>
+      <div class="sec-head"><p class="kicker">Series · 🧪 직접 해 보기</p><h2>보는 것에서,<br>직접 돌려 보기로</h2>
+        <p>강화학습을 직접 돌려 보며 겪은 실패와 고친 점을 그대로 보여 드려요. 모든 버전을 같은 카메라 · 같은 시작 조건으로 다시 녹화해서, 무엇이 달라졌는지 한눈에 비교할 수 있게 했어요.</p></div>
+      <span class="tag">01 · 휴머노이드 걷기</span>
+      <h3 style="font-size:24px;margin:4px 0 8px">2초 만에 넘어지던 AI, 57m를 걷다</h3>
+      <p class="muted">걷는 법을 한 번도 가르치지 않은 사람 모양 로봇. 규칙은 "넘어지면 점수 깎임, 앞으로 가면 점수" 두 개뿐이었어요. 100만 번 연습해도 2초 만에 넘어지던 로봇이, 점수표를 고치자 같은 15초 동안 57m를 걷게 됐어요. 69번의 실험이었습니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="hum02" style="padding-top:0"><div class="wrap">
+  <div class="grid split" style="grid-template-columns:1fr minmax(0,380px);gap:48px;align-items:center">
+    <div>
+      <span class="tag">02 · 점수표 (보상 설계)</span>
+      <h3 style="font-size:24px;margin:4px 0 8px">AI는 시킨 것만 한다 — 걷는 로봇 점수표 공개</h3>
+      <p class="muted">57m를 걷는데 팔이 좀 이상하다? 점수표에 팔 얘기가 한 줄도 없으니, AI는 팔꿈치를 쭉 편 채(+10°) 휘두르고 가슴도 16° 틀어진 채 걸었어요. "팔을 쭉 펴면 −", "가슴이 옆을 보면 −" 두 줄을 더하자 팔꿈치는 −54°로 접히고 가슴은 2°로 바로 섰어요.</p>
+      <div class="grid g2" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px">
+        <div class="stat"><b style="color:#f87171">+10°</b><span>꼼수 버전 팔꿈치 (쭉 폄)</span></div>
+        <div class="stat"><b>−54°</b><span>지금 팔꿈치 (접힘)</span></div>
+      </div>
+      <p class="muted" style="font-size:14px;margin-top:14px">요령은 하나 — 한 번에 한 줄만 고치고, 영상으로 확인하기.</p>
+    </div>
+    <div class="vplayer" data-yt="CwoE_b0qeWg" data-at="2026-12-08T09:00:00Z" data-title="AI는 시킨 것만 한다 — 직접 해 보기 02"><img src="assets/media/hum02_v.jpg" alt="AI는 시킨 것만 한다 — 썸네일"></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="band">
+    <div><p class="kicker">Free Kit</p><h2>점수표, 직접 짜 볼래요?</h2><p>무료 키트 ④ 보상 설계 워크시트로 내 로봇에게 줄 점수 3가지를 정하고, 로봇이 찾을 꼼수를 미리 막아 봐요.</p></div>
+    <a class="btn btn-gold" href="kit.html?utm_source=site&amp;utm_campaign=practice">무료 키트 받기</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 AI Build Master</span><span>MuJoCo Humanoid (Gymnasium) · PPO · 강의 실습으로 학습 (CONNECT AI LAB × AI CITY BUILDERS) · 내레이션 AI 음성</span></div><div class="wrap biz"><a href="privacy.html">개인정보처리방침</a><br>상호: 에이전트(Aigent) | 대표: 김민진 | 사업자등록번호: 553-17-02650 | 통신판매업: 제2026-서울성북-0963호<br>주소: 서울특별시 성북구 오패산로 46, 103동 1204호 | 대표전화: 010-4316-9780 | 문의: <a href="mailto:lucaskim72@gmail.com">lucaskim72@gmail.com</a></div></footer>
+<script src="assets/gate.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a3f45a1b14e94875b080cc8246551ce5"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
