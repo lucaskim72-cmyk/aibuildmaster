@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>블렌더 없이 코드만으로 3D 쇼츠 — 따라하기 가이드 | AI Build Master</title>
+<meta name="description" content="같은 지시문을 Gemini와 Claude에 줬더니? 쇼츠 속 3D 장면을 브라우저에서 직접 열어 보고, 복사 한 번으로 따라 만들어 보세요.">
+<link rel="icon" href="assets/media/abm_profile.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .xg-pairs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  .xg-pair{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .xg-pair h3{margin:0 0 4px}
+  .xg-pair p{margin:0 0 14px;color:var(--muted);font-size:14.5px}
+  .xg-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .xg-app{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line);text-decoration:none;color:inherit;background:#050914}
+  .xg-app:hover{border-color:var(--cyan)}
+  .xg-app img{display:block;width:100%;aspect-ratio:9/12;object-fit:cover}
+  .xg-app span{display:block;padding:10px 12px;font-weight:700;font-size:14px}
+  .xg-app small{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:2px}
+  .xg-panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+  .xg-brand{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .xg-brand label{font-weight:700;color:var(--gold)}
+  .xg-brand input{flex:1;min-width:220px;padding:10px 14px;border-radius:8px;border:1px solid #22d3ee66;background:#060b16;color:#fff;font:600 15px var(--f-ko)}
+  .xg-tabs{display:flex;gap:10px;margin:22px 0 18px;flex-wrap:wrap}
+  .xg-tab{padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;font:700 14px var(--f-ko)}
+  .xg-tab.on{background:var(--gold);color:#111827;border-color:var(--gold)}
+  .xg-track{display:none}.xg-track.on{display:block}
+  .xg-step{font-size:18px;font-weight:700;margin:0 0 8px}
+  .xg-sub{font-size:14px;color:var(--muted);margin:0 0 12px}
+  .xg-card{background:#0b1324;border:1px solid #ffffff1a;border-radius:12px;padding:16px;margin-top:14px}
+  .xg-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .xg-name{font-weight:700;color:var(--cyan)}
+  .xg-copy{padding:7px 14px;border-radius:8px;border:0;background:var(--cyan);color:#06101c;font:800 13px var(--f-ko);cursor:pointer}
+  .xg-copy.done{background:#22c55e;color:#052e16}
+  .xg-card pre{margin:0;white-space:pre-wrap;word-break:break-word;background:#050912;border:1px solid #ffffff14;border-radius:8px;padding:14px;font:13px/1.6 Consolas,"D2Coding",monospace;color:#e2e8f0;max-height:320px;overflow-y:auto}
+  .xg-tip{font-size:14px;border-left:3px solid var(--gold);padding:8px 12px;background:#facc1514;border-radius:0 8px 8px 0;margin-top:12px}
+  @media (max-width:760px){.xg-pairs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/media/abm_profile.png" alt="">AI <b>Build</b> Master</a>
+  <ul><li><a href="index.html#projects">프로젝트</a></li><li><a href="tori.html">토리</a></li><li><a href="dream.html">AI가 꿈을 꾼다</a></li><li><a href="practice.html">직접 해 보기</a></li><li><a href="xr-guide.html" aria-current="page">3D 따라하기</a></li><li><a href="index.html#channel">유튜브</a></li></ul>
+  <a class="btn btn-yt" href="https://www.youtube.com/@AIBuildMasterKR?sub_confirmation=1" target="_blank" rel="noopener" title="AI Build Master 유튜브 채널 구독">▶ 구독</a>
+  <a class="btn btn-gold" href="kit.html?utm_source=xr_guide&utm_campaign=nav">무료 키트 받기</a>
+</div></nav>
+
+<section><div class="wrap">
+  <div class="sec-head"><p class="kicker">Gemini vs Claude · 3D Shorts</p><h2>블렌더 없이, 코드만으로 만든 3D 쇼츠</h2>
+    <p>같은 지시문을 Gemini와 Claude에 똑같이 줬어요. 쇼츠 속 장면은 영상이 아니라 <b>브라우저에서 돌아가는 코드</b>예요. 아래에서 직접 열어 보고, 마음에 들면 지시문을 복사해 내 것으로 만들어 보세요.</p></div>
+  <div class="xg-pairs">
+    <div class="xg-pair">
+      <h3>🌆 1탄 · 도심 야경 추격전</h3>
+      <p>드론 추격 → 운전석으로 쏙. 같은 지시문, 다른 AI.</p>
+      <div class="xg-two">
+        <a class="xg-app" href="xr/chase/"><img src="assets/media/xr_chase.jpg" alt="Gemini가 만든 도심 추격 장면" loading="lazy"><span>Gemini판 열기 →<small>마우스 · 손가락으로 둘러보기</small></span></a>
+        <a class="xg-app" href="xr/chase-claude/"><img src="assets/media/xr_chase-claude.jpg" alt="Claude가 만든 도심 추격 장면" loading="lazy"><span>Claude판 열기 →<small>메타 퀘스트면 VR로</small></span></a>
+      </div>
+    </div>
+    <div class="xg-pair">
+      <h3>🪐 2탄 · 태양계 우주 유영</h3>
+      <p>지구에서 태양까지, 코드 파일 하나로.</p>
+      <div class="xg-two">
+        <a class="xg-app" href="xr/solar/"><img src="assets/media/xr_solar.jpg" alt="Gemini가 만든 태양계 장면" loading="lazy"><span>Gemini판 열기 →<small>마우스 · 손가락으로 둘러보기</small></span></a>
+        <a class="xg-app" href="xr/solar-claude/"><img src="assets/media/xr_solar-claude.jpg" alt="Claude가 만든 태양계 장면" loading="lazy"><span>Claude판 열기 →<small>메타 퀘스트면 VR로</small></span></a>
+      </div>
+    </div>
+  </div>
+  <p class="muted" style="font-size:13.5px;margin-top:12px">화면을 한 번 누르면 소리가 켜져요. 휴대폰보다 컴퓨터가 더 부드러워요.</p>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="sec-head"><p class="kicker">Follow Along</p><h2>복사 한 번으로 따라 만들기</h2>
+    <p>설치 없이 브라우저에서 바로 해 보는 <b>트랙 A</b>, 세로 MP4와 메타 퀘스트 앱까지 뽑는 <b>트랙 B</b> 중에서 골라 보세요.</p></div>
+
+  <div class="xg-panel xg-brand">
+    <label for="channelInput">내 채널 이름</label>
+    <input id="channelInput" type="text" value="AI BUILD MASTER" placeholder="예: AI BUILD MASTER">
+    <span class="muted" style="font-size:13px">입력하면 아래 지시문의 끝 로고 글자가 바로 바뀌어요.</span>
+  </div>
+
+  <div class="xg-tabs">
+    <button class="xg-tab on" data-t="a">트랙 A · 설치 없이 1분 (Google AI Studio / Gemini)</button>
+    <button class="xg-tab" data-t="b">트랙 B · MP4 + 메타 퀘스트 (내 컴퓨터의 AI 에이전트)</button>
+  </div>
+
+  <div id="track-a" class="xg-track on"><div class="xg-panel">
+    <div class="xg-step">1. 무료 웹 편집기 열기 (설치 없음)</div>
+    <p class="xg-sub">① <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio</a>(Build 또는 채팅)나 <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a>(Canvas 켜기)를 엽니다.<br>
+      ② 아래 지시문 하나를 복사해 그대로 붙여 넣고 실행합니다.<br>
+      ③ 실행된 화면 오른쪽 아래 <b>[영상 녹화 저장]</b> 버튼을 누르면 브라우저에서 바로 영상 파일(<code>.webm</code>)로 저장돼요.</p>
+    <div class="xg-card"><div class="xg-head"><span class="xg-name">지시문 1 · 도심 야경 드론 추격전 → 운전석 (30초)</span><button class="xg-copy" data-id="a1">지시문 복사</button></div><pre id="a1"></pre></div>
+    <div class="xg-card"><div class="xg-head"><span class="xg-name">지시문 2 · 태양계 횡단 + 와이어프레임 반전 (35초)</span><button class="xg-copy" data-id="a2">지시문 복사</button></div><pre id="a2"></pre></div>
+    <div class="xg-card"><div class="xg-head"><span class="xg-name">지시문 3 · 내 책상 위 미니 AI 로봇 (30초)</span><button class="xg-copy" data-id="a3">지시문 복사</button></div><pre id="a3"></pre></div>
+  </div></div>
+
+  <div id="track-b" class="xg-track">
+    <div class="xg-panel">
+      <div class="xg-step">1. 처음 한 번만 준비 (1분)</div>
+      <p class="xg-sub">Antigravity · Claude Code · Cursor를 쓰는 분용이에요. 터미널에서 아래 한 줄로 <code>connect-ai-xr</code> 스킬을 설치하세요. (Node.js · Chrome · FFmpeg 필요)</p>
+      <div class="xg-card"><div class="xg-head"><span class="xg-name">설치 명령</span><button class="xg-copy" data-id="b0">명령 복사</button></div><pre id="b0">npx github:wonseokjung/connect-ai-xr install-skill</pre></div>
+    </div>
+    <div class="xg-panel">
+      <div class="xg-step">2. 지시문 실행 (1080×1920 MP4 + 메타 퀘스트 WebXR)</div>
+      <div class="xg-card"><div class="xg-head"><span class="xg-name">지시문 1 · 도심 야경 추격전 (30초 MP4 + WebXR)</span><button class="xg-copy" data-id="b1">지시문 복사</button></div><pre id="b1"></pre></div>
+      <div class="xg-card"><div class="xg-head"><span class="xg-name">지시문 2 · 태양계 횡단 (35초 MP4 + WebXR)</span><button class="xg-copy" data-id="b2">지시문 복사</button></div><pre id="b2"></pre></div>
+      <div class="xg-tip">💡 같은 에이전트에서 모델만 <b>Gemini ↔ Claude</b>로 바꾸고 폴더 이름만 다르게 실행하면, 저희처럼 1:1 비교 쇼츠를 바로 만들 수 있어요.</div>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="band">
+    <div><p class="kicker">Next</p><h2>코드 3D 다음은, 스스로 배우는 로봇</h2><p>로봇·코딩 경험 0인 대표가 AI와 함께 도토리 로봇 토리를 만들고 있어요. 브라우저에서 토리에게 길 찾기를 직접 가르쳐 볼 수도 있어요.</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-line" href="lab/nav/">🧪 길 찾기 실험실</a><a class="btn btn-line" href="tori.html">🌰 토리 이야기</a></div>
+  </div>
+</div></section>
+<section style="padding-top:0"><div class="wrap">
+  <div class="band">
+    <div><p class="kicker">Free Kit</p><h2>로봇 1도 몰라도, 직접 가르쳐 볼래요?</h2><p>체크리스트, 강화학습 한 장 요약, 실패·성공 영상 6쌍, 보상 설계 워크시트를 무료로 드려요.</p></div>
+    <a class="btn btn-gold" href="kit.html?utm_source=xr_guide&utm_campaign=band">무료 키트 받기 🌰</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 AI Build Master</span><span>3D 장면은 Gemini · Claude가 같은 지시문으로 만든 코드(three.js)이며, 블렌더·영상 소스를 쓰지 않았습니다.</span></div><div class="wrap biz"><a href="privacy.html">개인정보처리방침</a><br>상호: 에이전트(Aigent) | 대표: 김민진 | 사업자등록번호: 553-17-02650 | 통신판매업: 제2026-서울성북-0963호<br>주소: 서울특별시 성북구 오패산로 46, 103동 1204호 | 대표전화: 010-4316-9780 | 문의: <a href="mailto:lucaskim72@gmail.com">lucaskim72@gmail.com</a></div></footer>
+<script>
+const TEMPLATES = {
+  a1: `단일 HTML 파일(Three.js ES Module CDN + Web Audio API + Canvas2D HUD)로 바로 실행되는 30초 세로형(9:16) 3D 도심 야경 드론 추격전 앱을 만들어 줘.
+
+[30초 타임라인 & 연출]
+1. 0~13초 (드론 공중 추격전):
+   - 비 젖은 야경 마천루 도심 6차선 고속도로를 시속 300km+로 질주하는 블랙&골드 슈퍼카.
+   - 경광등(빨강/파랑)이 번쩍이며 뒤쫓는 경찰차 2대와 일반 차량 사이를 아슬아슬하게 추월(불꽃 + 테일라이트 잔상).
+2. 13~16초 (운전석 줌인):
+   - 드론이 가속하며 주인공 차 운전석 안으로 빨려 들어가듯 부드럽게 줌인.
+3. 16~26.2초 (1인칭 운전석 POV):
+   - 앞유리·A필러·룸미러(뒤쪽 경찰차 반사)·디지털 계기판·회전하는 레이싱 핸들 + 미세 진동.
+4. 26.2~30초 (화이트아웃 엔딩):
+   - 순백색 화이트아웃 후 깔끔한 흰 배경 위에 굵은 '{{CHANNEL}}' 로고만 선명하게 등장.
+
+[자비스 스타일 3D HUD & 사운드]
+- Three.js 실제 3D 좌표를 매 프레임 화면으로 투영해 차량을 따라다니는 타겟 브래킷(속도·거리·경고)과 우측 하단 6차선 미니 레이더 표시.
+- Web Audio API로 엔진음·경찰 사이렌·엔딩 차임 실시간 합성 (화면 클릭 시 사운드 활성화).
+
+[영상 녹화 저장 버튼 필수]
+- 화면 우측 하단에 '[30초 영상 녹화 저장]' 버튼을 만들어, 클릭하면 0초부터 자동 재생하며 canvas.captureStream(30) + MediaRecorder로 .webm 영상 파일을 자동 다운로드해 줘.`,
+
+  a2: `단일 HTML 파일(Three.js ES Module CDN + Web Audio API + Canvas2D HUD)로 바로 실행되는 35초 세로형(9:16) 태양계 우주 유영 3D 앱을 만들어 줘.
+
+[35초 타임라인 & 연출]
+1. 0~4초 (우주선 창문 훅): 지구 궤도 우주선 창문 밖 푸른 지구와 달. 자막: "블렌더 없이 AI 코드 파일 1개로 만든 태양계 횡단".
+2. 4~18.5초 (광속 돌파): 지구 → 달 → 화성 → 180개 소행성대 → 목성(대적점) → 토성 얼음 고리 정면 관통 + 각 행성 자비스 원형 타겟 HUD.
+3. 18.5~23초 (와이어프레임 반전): 레이저 스캔선이 지나가며 모든 행성이 3D 와이어프레임으로 전환되고 좌측 하단에 실제 Three.js 코드가 표시됨.
+4. 23~28.8초 (태양 코로나 근접 비행).
+5. 28.8~35초 (태양 섬광 화이트아웃 엔딩): 순백색 배경 위 '{{CHANNEL}}' 로고만 깔끔하게 등장.
+
+[사운드 & 녹화 저장 버튼]
+- Web Audio API로 우주 앰비언트·행성 통과 워시음·글리치음 합성.
+- 우측 하단에 '[35초 영상 녹화 저장]' 버튼(MediaRecorder .webm 다운로드)을 반드시 포함해 줘.`,
+
+  a3: `단일 HTML 파일(Three.js ES Module CDN + Web Audio API)로 바로 실행되는 30초 세로형(9:16) 내 책상 위 AI 로봇 3D 데모 앱을 만들어 줘.
+
+[30초 타임라인 & 연출]
+1. 원목 작업대 + 1cm 그리드 커팅매트 + 1cm 문턱 장애물 위에 귀여운 2족 보행 AI 로봇(도토리 모자·LED 눈) 배치.
+2. 0~4.5초: 바닥 AR 스캔 링으로 로봇 소환 후 손 흔들며 인사.
+3. 4.5~12.5초: 1cm 문턱을 척척 넘어가는 보행 데모 + 자비스 추적 라벨.
+4. 12.5~18.5초: 360도 카메라 회전 + CAD 와이어프레임 스캔.
+5. 18.5~26초: 점프 + 한 바퀴 회전 인사.
+6. 26~30초: 화이트아웃 후 '{{CHANNEL}}' 로고만 깔끔하게 등장.
+
+[녹화 저장 버튼]
+- 우측 하단에 '[30초 영상 녹화 저장]' 버튼(canvas.captureStream(30) + MediaRecorder .webm 다운로드)을 포함해 줘.`,
+
+  b1: `설치된 connect-ai-xr 스킬(Three.js + 로컬 vendor만 사용, 외부 CDN/URL 금지)을 사용해서
+유튜브 쇼츠용 30초 세로 영상(1080×1920, 30fps, H.264 MP4)과 메타퀘스트/브라우저에서 직접 열리는 WebXR 앱을 함께 만들어 줘.
+
+[폴더명] xr-projects/city-chase-xr
+[엔딩 로고] 26.2~30초 화이트아웃 후 '{{CHANNEL}}' 로고만 깔끔하게 등장(타 브랜드 문구 금지).
+[사운드 & 검증] Node.js 30초 스테레오 48kHz WAV 합성 + connect-ai-xr check PASS 확인 + 4개 컷 검수 후 FFmpeg로 1080×1920 30fps MP4 렌더링해 줘.`,
+
+  b2: `설치된 connect-ai-xr 스킬(Three.js + 로컬 vendor만 사용, 외부 CDN/URL 금지)을 사용해서
+유튜브 쇼츠용 35초 세로 영상(1080×1920, 30fps, H.264 MP4)과 WebXR 앱을 함께 만들어 줘.
+
+[폴더명] xr-projects/solar-warp-xr
+[엔딩 로고] 28.8~35초 태양 섬광 화이트아웃 후 '{{CHANNEL}}' 로고만 깔끔하게 등장(타 브랜드 문구 금지).
+[사운드 & 검증] Node.js 35초 스테레오 48kHz WAV 합성 + connect-ai-xr check PASS 확인 + 4개 컷 검수 후 FFmpeg로 1080×1920 30fps MP4 렌더링해 줘.`
+};
+function renderPrompts() {
+  const ch = document.getElementById('channelInput').value.trim() || 'AI BUILD MASTER';
+  for (const [k, tpl] of Object.entries(TEMPLATES)) document.getElementById(k).textContent = tpl.replaceAll('{{CHANNEL}}', ch);
+}
+document.querySelectorAll('.xg-tab').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.xg-tab,.xg-track').forEach(el => el.classList.remove('on'));
+  b.classList.add('on'); document.getElementById('track-' + b.dataset.t).classList.add('on');
+}));
+document.querySelectorAll('.xg-copy').forEach(b => b.addEventListener('click', async () => {
+  const txt = document.getElementById(b.dataset.id).textContent;
+  try { await navigator.clipboard.writeText(txt); } catch (e) {
+    const r = document.createRange(); r.selectNodeContents(document.getElementById(b.dataset.id));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges();
+  }
+  const o = b.textContent; b.textContent = '복사 완료!'; b.classList.add('done');
+  setTimeout(() => { b.textContent = o; b.classList.remove('done'); }, 1500);
+}));
+document.getElementById('channelInput').addEventListener('input', renderPrompts);
+renderPrompts();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a3f45a1b14e94875b080cc8246551ce5"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

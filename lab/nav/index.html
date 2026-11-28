@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>토리 길 찾기 실험실</title>
+<meta name="description" content="도토리 로봇 토리가 장애물을 피해 깃발까지 가는 법을 브라우저 안에서 강화학습(PPO)으로 배우는 실험실">
+<meta property="og:title" content="토리 길 찾기 실험실 — 브라우저에서 강화학습 해 보기">
+<meta property="og:description" content="물건을 놓고 깃발을 옮기면, 도토리 로봇 토리가 부딪히고 벗어나며 스스로 길을 배워요. 설치 없이 브라우저에서 PPO 학습.">
+<meta property="og:image" content="https://lucaskim72-cmyk.github.io/aibuildmaster/assets/media/navlab.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0B1120; --panel: rgba(15, 23, 42, .82); --panel2: rgba(30, 41, 59, .7);
+  --line: rgba(148, 163, 184, .16); --line2: rgba(148, 163, 184, .32);
+  --ink: #F1F5F9; --dim: #94A3B8; --dim2: #64748B;
+  --yellow: #FACC15; --yellow2: #CA8A04; --green: #4ADE80; --red: #F87171; --blue: #7DD3FC; --amber: #FFB547; --leaf: #5B8C3A;
+  --mono: "JetBrains Mono", ui-monospace, monospace; --head: "Space Grotesk", "Noto Sans KR", sans-serif;
+  --dock: 344px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 14px/1.5 "Noto Sans KR", system-ui, sans-serif; overflow: hidden; }
+#stage { position: fixed; inset: 0; right: var(--dock); }
+#stage canvas { display: block; outline: none; }
+#stage::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 190px; background: linear-gradient(180deg, rgba(11,17,32,.92), rgba(11,17,32,.55) 55%, transparent); pointer-events: none; }
+button, select, input { font: inherit; color: inherit; }
+
+/* 머리 */
+#top { position: fixed; left: 18px; top: 14px; right: calc(var(--dock) + 18px); display: flex; align-items: flex-start; gap: 14px; pointer-events: none; }
+#brand { pointer-events: auto; }
+#brand .kicker { font: 600 11px/1 var(--mono); letter-spacing: .18em; color: var(--yellow); text-transform: uppercase; }
+#brand h1 { margin: 6px 0 2px; font: 800 26px/1.1 var(--head); letter-spacing: -.01em; }
+#brand h1 b { color: var(--yellow); }
+#brand p { margin: 0; color: var(--dim); font-size: 13px; max-width: 520px; }
+.badges { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.badge { font: 600 11px/1 var(--mono); padding: 5px 8px; border: 1px solid var(--line2); border-radius: 999px; color: var(--dim); background: rgba(2, 6, 23, .5); }
+.badge.live { color: var(--green); border-color: rgba(74, 222, 128, .4); }
+.badge.snd { pointer-events: auto; cursor: pointer; color: var(--yellow); border-color: rgba(250, 204, 21, .45); font-family: "Noto Sans KR"; }
+.badge.snd:hover { background: rgba(250, 204, 21, .12); }
+.badge.snd.off { color: var(--dim); border-color: var(--line2); text-decoration: line-through; }
+.badge.live::before { content: "●"; margin-right: 5px; animation: blink 1.2s infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+
+/* 결과 알림 */
+#toast { position: fixed; left: calc((100% - var(--dock)) / 2); top: 40%; transform: translate(-50%, -50%) scale(.9); font: 900 44px/1 var(--head); letter-spacing: -.02em; opacity: 0; transition: .25s; pointer-events: none; text-shadow: 0 6px 30px rgba(0, 0, 0, .6); }
+#toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#toast small { display: block; text-align: center; font: 600 14px/1.4 "Noto Sans KR"; color: var(--ink); margin-top: 8px; opacity: .8; }
+
+/* 아래: 토리 마음 (명령 확률) */
+#mind { position: fixed; left: 18px; right: calc(var(--dock) + 18px); bottom: 14px; display: flex; gap: 12px; align-items: flex-end; pointer-events: none; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); pointer-events: auto; }
+#acts { padding: 10px 12px 8px; flex: 1; min-width: 0; }
+.cap { font: 600 11px/1 var(--mono); letter-spacing: .12em; color: var(--dim); text-transform: uppercase; display: flex; justify-content: space-between; gap: 8px; }
+.cap b { color: var(--yellow); font-weight: 600; }
+#bars { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 8px; align-items: end; height: 92px; }
+.bar { display: flex; flex-direction: column; align-items: center; gap: 3px; height: 100%; justify-content: flex-end; }
+.bar .fill { width: 100%; max-width: 34px; border-radius: 6px 6px 3px 3px; background: linear-gradient(180deg, #94A3B8, #475569); height: 2%; transition: height .12s, background .12s; }
+.bar.on .fill { background: linear-gradient(180deg, #FDE68A, var(--yellow2)); box-shadow: 0 0 16px rgba(250, 204, 21, .55); }
+.bar .ic { font: 700 15px/1 var(--mono); color: var(--dim); }
+.bar.on .ic { color: var(--yellow); }
+.bar .nm { font-size: 10px; color: var(--dim2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+#sense { padding: 10px 12px; width: 220px; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin-top: 8px; font: 500 12px/1.45 var(--mono); }
+.kv span:nth-child(odd) { color: var(--dim); font-family: "Noto Sans KR"; }
+.kv span:nth-child(even) { text-align: right; }
+#tofbar { height: 6px; border-radius: 3px; background: rgba(148, 163, 184, .15); margin-top: 6px; overflow: hidden; }
+#tofbar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--red), var(--amber), var(--green)); transition: width .12s; }
+
+/* 학습 세상 미리보기 */
+#worlds { position: fixed; right: calc(var(--dock) + 18px); top: 14px; padding: 10px 12px; width: 300px; }
+#worlds canvas { width: 100%; display: block; margin-top: 8px; border-radius: 8px; background: rgba(2, 6, 23, .55); }
+#worlds .note { font-size: 11px; color: var(--dim); margin-top: 6px; }
+
+/* 오른쪽 조작판 */
+#dock { position: fixed; right: 0; top: 0; bottom: 0; width: var(--dock); background: rgba(8, 13, 26, .96); border-left: 1px solid var(--line); overflow-y: auto; padding: 14px 14px 30px; }
+#dock::-webkit-scrollbar { width: 8px; } #dock::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+.sec { border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 10px; background: rgba(15, 23, 42, .6); }
+.sec h2 { margin: 0 0 10px; font: 700 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); display: flex; align-items: center; gap: 8px; }
+.sec h2 .n { color: var(--yellow); }
+.row { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn { flex: 1; min-width: 0; padding: 9px 10px; border-radius: 9px; border: 1px solid var(--line2); background: var(--panel2); cursor: pointer; font-weight: 600; font-size: 13px; transition: .15s; white-space: nowrap; }
+.btn:hover { border-color: var(--yellow); }
+.btn.pri { background: var(--yellow); color: #111827; border-color: var(--yellow); }
+.btn.pri:hover { background: #FDE047; }
+.btn.on { border-color: var(--yellow); color: var(--yellow); background: rgba(250, 204, 21, .08); }
+.btn:disabled { opacity: .4; cursor: default; }
+.seg { display: flex; border: 1px solid var(--line2); border-radius: 9px; overflow: hidden; }
+.seg button { flex: 1; padding: 8px 6px; background: transparent; border: 0; cursor: pointer; font-size: 12.5px; color: var(--dim); }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button.on { background: rgba(250, 204, 21, .12); color: var(--yellow); font-weight: 700; }
+.lbl { font-size: 12px; color: var(--dim); margin: 10px 0 5px; display: flex; justify-content: space-between; }
+.lbl b { color: var(--ink); font: 600 12px var(--mono); }
+input[type=range] { width: 100%; accent-color: var(--yellow); }
+.stat { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+.stat div { background: rgba(2, 6, 23, .5); border: 1px solid var(--line); border-radius: 9px; padding: 7px 9px; }
+.stat small { display: block; color: var(--dim); font-size: 11px; }
+.stat b { font: 700 18px/1.2 var(--mono); }
+.stat b.g { color: var(--green); } .stat b.r { color: var(--red); } .stat b.y { color: var(--yellow); }
+#chart { width: 100%; height: 150px; display: block; margin-top: 8px; }
+.legend { display: flex; gap: 10px; font-size: 11px; color: var(--dim); margin-top: 4px; flex-wrap: wrap; }
+.legend i { display: inline-block; width: 10px; height: 3px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+#palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+#palette button { padding: 7px 4px; border-radius: 9px; border: 1px solid var(--line2); background: var(--panel2); cursor: pointer; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+#palette button .sw { width: 22px; height: 12px; border-radius: 3px; }
+#palette button.on { border-color: var(--yellow); background: rgba(250, 204, 21, .1); }
+#palette button small { font-size: 10px; color: var(--dim); }
+.hint { font-size: 11.5px; color: var(--dim); margin-top: 8px; line-height: 1.55; }
+.hint kbd { font: 600 10.5px var(--mono); border: 1px solid var(--line2); border-radius: 4px; padding: 1px 4px; color: var(--ink); }
+#dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-top: 8px; }
+#dots i { aspect-ratio: 1; border-radius: 50%; background: rgba(148, 163, 184, .18); }
+#dots i.win { background: var(--green); box-shadow: 0 0 8px rgba(74, 222, 128, .5); }
+#dots i.crash { background: var(--red); } #dots i.out { background: var(--amber); } #dots i.tout { background: #A78BFA; }
+#testres { font: 600 13px var(--mono); margin-top: 8px; }
+.cta { display: block; text-align: center; margin-top: 12px; padding: 11px; border-radius: 10px; background: linear-gradient(135deg, rgba(250, 204, 21, .14), rgba(91, 140, 58, .18)); border: 1px solid rgba(250, 204, 21, .35); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 13px; }
+.cta small { display: block; font-weight: 400; color: var(--dim); font-size: 11.5px; margin-top: 2px; }
+#help summary { cursor: pointer; color: var(--dim); font-size: 12px; }
+#cfgSec > summary { cursor: pointer; list-style: none; font: 700 14px "Noto Sans KR"; display: flex; align-items: center; gap: 8px; }
+#cfgSec > summary::-webkit-details-marker { display: none; }
+#cfgSec > summary .arr { margin-left: auto; color: var(--dim); font-size: 12px; transition: .15s; }
+#cfgSec[open] > summary .arr { transform: rotate(90deg); }
+.cfgGrp { margin-top: 12px; font: 700 12px "Noto Sans KR"; color: var(--yellow); letter-spacing: .02em; }
+.cfgGrp small { color: var(--dim); font-weight: 400; margin-left: 6px; }
+.cfgRow { display: grid; grid-template-columns: 1fr 86px; gap: 2px 8px; align-items: center; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+.cfgRow label { font-size: 12.5px; }
+.cfgRow label small { display: block; color: var(--dim); font-size: 10.8px; line-height: 1.4; margin-top: 1px; }
+.cfgRow input { width: 100%; padding: 5px 7px; border-radius: 7px; border: 1px solid var(--line2); background: var(--panel2); font: 600 12.5px var(--mono); text-align: right; }
+.cfgRow.chg input { border-color: var(--yellow); color: var(--yellow); }
+.cfgRow.bad input { border-color: var(--red); color: var(--red); }
+#cfgMsg { font-size: 11.5px; color: var(--green); margin-top: 8px; min-height: 16px; line-height: 1.5; }
+#help p { font-size: 12px; color: var(--dim); margin: 6px 0; }
+#loading { position: fixed; inset: 0; display: grid; place-items: center; background: var(--bg); z-index: 9; font: 600 14px var(--mono); color: var(--dim); transition: opacity .4s; }
+#loading.hide { opacity: 0; pointer-events: none; }
+
+@media (max-width: 900px) {
+  :root { --dock: 0px; }
+  html, body { overflow: auto; }
+  #stage { position: relative; height: 62vh; right: 0; }
+  #top { right: 18px; } #worlds { display: none; }
+  #mind { position: relative; left: 0; right: 0; bottom: 0; padding: 10px 16px; flex-direction: column; align-items: stretch; }
+  #sense { width: auto; }
+  #toast { left: 50%; top: 30vh; font-size: 32px; }
+  #dock { position: relative; width: auto; border: 0; padding: 0 16px 30px; overflow: visible; }
+  #bars .nm { display: none; }
+}
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="loading">토리 깨우는 중…</div>
+<div id="stage"></div>
+
+<header id="top">
+  <div id="brand">
+    <div class="kicker"><a href="https://lucaskim72-cmyk.github.io/aibuildmaster/practice.html" style="color:inherit;text-decoration:none">← AI Build Master</a> · Tori Lab</div>
+    <h1>토리 <b>길 찾기</b> 실험실</h1>
+    <p>바닥에 물건을 놓고 깃발을 옮겨 보세요. 토리가 부딪히고 벗어나며 <b style="color:var(--ink)">스스로</b> 길을 배웁니다.</p>
+    <div class="badges">
+      <span class="badge live" id="bLive">시연 중</span>
+      <span class="badge">PPO · 브라우저 안에서 학습</span>
+      <span class="badge">2D 연습장 · MuJoCo 실측 반응</span>
+      <button class="badge snd" id="btnMusic" title="학습할 때 나오는 음악 켜기/끄기">🎵 음악 켬</button>
+      <a class="badge snd" href="https://www.youtube.com/@AIBuildMasterKR?sub_confirmation=1" target="_blank" rel="noopener" style="background:#ff0033;color:#fff;border-color:#ff0033;text-decoration:none" title="AI Build Master 유튜브 구독">▶ 유튜브 구독</a>
+      <button class="badge snd" id="btnVoice" title="도착·실패 때 토리 목소리 켜기/끄기">🗣 목소리 켬</button>
+    </div>
+  </div>
+</header>
+
+<div id="worlds" class="card">
+  <div class="cap"><span>학습 세상</span><b id="wTitle">대기</b></div>
+  <canvas id="wcv" width="560" height="300"></canvas>
+  <div class="note" id="wNote">학습을 시작하면 여러 세상에서 동시에 연습하는 모습이 보여요.</div>
+</div>
+
+<div id="toast"></div>
+
+<div id="mind">
+  <div id="acts" class="card">
+    <div class="cap"><span>토리 마음 · 다음 명령 확률</span><b id="brainName">선생님</b></div>
+    <div id="bars"></div>
+  </div>
+  <div id="sense" class="card">
+    <div class="cap"><span>토리가 느끼는 것</span></div>
+    <div class="kv">
+      <span>깃발까지</span><span id="sGoal">—</span>
+      <span>앞 거리센서</span><span id="sTof">—</span>
+      <span>가까운 물건</span><span id="sNear">—</span>
+      <span>시간</span><span id="sTime">—</span>
+    </div>
+    <div id="tofbar"><i></i></div>
+  </div>
+</div>
+
+<aside id="dock">
+  <div class="sec">
+    <h2><span class="n">01</span> 누가 걸을까</h2>
+    <div class="seg" id="brainSeg">
+      <button data-b="teacher" class="on">선생님 두뇌</button>
+      <button data-b="student">내가 키운 두뇌</button>
+    </div>
+    <div class="hint" id="brainHint">선생님 = 아리가 512개 세상에서 800번 학습시킨 두뇌 (무작위 코스 도착 96%).</div>
+    <div class="lbl"><span>시연 속도</span><b id="spdV">1×</b></div>
+    <div class="seg" id="spdSeg"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+    <div class="lbl"><span>고르는 방식</span></div>
+    <div class="seg" id="modeSeg"><button data-m="greedy" class="on">실력 (가장 높은 것)</button><button data-m="sample">탐험 (확률대로)</button></div>
+    <div class="row" style="margin-top:8px"><button class="btn" id="btnRestart">↺ 다시 출발</button><button class="btn" id="btnPauseDemo">⏸ 잠깐 멈춤</button></div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">02</span> 학습시키기</h2>
+    <div class="row">
+      <button class="btn pri" id="btnTrain">▶ 학습 시작</button>
+      <button class="btn" id="btnNew" title="아무것도 모르는 두뇌로 처음부터">✦ 새 두뇌</button>
+    </div>
+    <div class="row" style="margin-top:6px"><button class="btn" id="btnFromTeacher" title="선생님 두뇌를 복사해서 내 코스로 더 연습">선생님에서 이어 배우기</button></div>
+    <div class="lbl"><span>내 코스로 연습하는 비율</span><b id="fracV">30%</b></div>
+    <input type="range" id="frac" min="0" max="100" step="10" value="30">
+    <div class="lbl"><span>동시에 연습하는 세상 수</span><b id="nEnvV">32</b></div>
+    <div class="seg" id="envSeg"><button data-n="16">16</button><button data-n="32" class="on">32</button><button data-n="64">64</button><button data-n="128">128</button></div>
+    <div class="lbl"><span>학습률</span><b id="lrV">0.002</b></div>
+    <div class="seg" id="lrSeg"><button data-l="0.0005">0.0005</button><button data-l="0.001">0.001</button><button data-l="0.002" class="on">0.002</button><button data-l="0.005">0.005</button></div>
+    <div class="stat">
+      <div><small>반복</small><b id="stIt">0</b></div>
+      <div><small>경험한 걸음</small><b id="stSteps">0</b></div>
+      <div><small>도착률 (최근)</small><b class="g" id="stWin">—</b></div>
+      <div><small>부딪힘</small><b class="r" id="stCrash">—</b></div>
+      <div><small>내 코스 도착</small><b class="y" id="stCourse">—</b></div>
+      <div><small>탐험 (엔트로피)</small><b id="stEnt">—</b></div>
+    </div>
+    <canvas id="chart" width="620" height="300"></canvas>
+    <div class="legend"><span><i style="background:var(--green)"></i>도착률</span><span><i style="background:var(--red)"></i>부딪힘</span><span><i style="background:var(--yellow)"></i>내 코스 도착</span><span><i style="background:#94A3B8"></i>선생님 96%</span></div>
+  </div>
+
+  <details class="sec" id="cfgSec">
+    <summary><span class="n">02+</span> 학습 조건 바꾸기 <span class="arr">▶</span></summary>
+    <div class="hint" style="margin-top:6px">값을 고치면 바로 학습에 반영돼요(노란 칸 = 기본값과 다름). <b>두뇌 크기</b>만 ✦ 새 두뇌를 눌러야 적용돼요.</div>
+    <div class="lbl" style="margin-top:10px"><span>빠른 설정</span></div>
+    <div class="seg" id="presetSeg"><button data-p="base" class="on">기본</button><button data-p="safe">조심조심</button><button data-p="fast">빨리빨리</button><button data-p="explore">탐험 많이</button></div>
+    <div id="cfgBox"></div>
+    <div class="row" style="margin-top:10px"><button class="btn" id="btnCfgReset">기본값으로</button><button class="btn" id="btnCfgSave">조건 저장</button><button class="btn" id="btnCfgLoad">조건 열기</button></div>
+    <div id="cfgMsg"></div>
+  </details>
+
+  <div class="sec">
+    <h2><span class="n">03</span> 코스 꾸미기</h2>
+    <div id="palette"></div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn" id="btnRandom">🎲 무작위</button>
+      <button class="btn" id="btnClear">비우기</button>
+      <button class="btn" id="btnDel" disabled>지우기</button>
+    </div>
+    <div class="hint">물건을 고르고 바닥을 <kbd>클릭</kbd>하면 놓여요. 놓인 물건·<b style="color:var(--yellow)">깃발</b>·출발 패드는 <kbd>끌어서</kbd> 옮기고, <kbd>Q</kbd> <kbd>E</kbd>로 돌리고, <kbd>Del</kbd>로 지워요. 빈 곳을 끌면 카메라가 돌아요. 물건은 최대 9개.</div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn" id="btnSaveW">코스 저장</button>
+      <button class="btn" id="btnLoadW">코스 열기</button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">04</span> 시험 20판</h2>
+    <div class="row"><button class="btn" id="btnTestT">선생님 시험</button><button class="btn" id="btnTestS">내 두뇌 시험</button></div>
+    <div id="dots"></div>
+    <div id="testres" class="hint">내 코스에서 몸 반응을 조금씩 바꿔 20번 걸려 봐요.</div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">05</span> 두뇌 파일</h2>
+    <div class="row"><button class="btn" id="btnSaveB">내 두뇌 받기</button><button class="btn" id="btnLoadB">두뇌 올리기</button></div>
+    <div class="hint">brain.json 하나에 신경망 전부가 들어 있어요. 친구에게 보내 같은 코스로 겨뤄 보세요.</div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">06</span> 카메라</h2>
+    <div class="seg" id="camSeg"><button data-c="iso" class="on">비스듬히</button><button data-c="top">위에서</button><button data-c="follow">따라가기</button></div>
+  </div>
+
+  <details class="sec" id="help">
+    <summary>이 실험실은 어떻게 돌아가나요?</summary>
+    <p><b>토리</b>는 실제로 만들고 있는 도토리 로봇이에요. 걷는 법은 이미 따로 배웠고, 여기서는 0.2초마다 <b>10가지 명령</b>(앞으로, 옆걸음, 돌기, 멈춤…) 중 하나를 고르는 법만 배워요.</p>
+    <p>토리가 아는 것: 깃발 방향·거리, 지금 속도, 가까운 물건 5개의 위치·크기·푹신함, 앞쪽 거리센서 값. 모두 48개 숫자예요.</p>
+    <p>점수: 깃발에 가까워지면 +, 딱딱한 물건 가까이 가면 −, 부딪히거나 길(폭 1.4 m)을 벗어나면 크게 −, 깃발에 닿으면 +3. 양말·손수건은 밟아도 되지만 조금 −.</p>
+    <p>이곳은 빠르게 배우려고 만든 <b>2D 연습장</b>이에요. 물리 엔진(MuJoCo)처럼 다리·접촉 힘을 계산하지는 않지만, 몸 반응(명령별 속도·0.3초 늦음·좌우 흔들림)은 MuJoCo 속 토리에서 직접 잰 값을 써요. 여기서 배운 두뇌는 MuJoCo에서 진짜 걷는 토리에게 얹어 다시 확인해요.</p>
+  </details>
+
+  <a class="cta" href="https://lucaskim72-cmyk.github.io/aibuildmaster/kit.html?utm_source=navlab&utm_medium=web&utm_campaign=tori_nav" target="_blank" rel="noopener">🌰 토리를 직접 만들어 보고 싶다면
+    <small>AI Build Master · 키트 소식 받기</small></a>
+</aside>
+
+<input type="file" id="fileIn" accept=".json,application/json" hidden>
+<script type="module" src="app.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a3f45a1b14e94875b080cc8246551ce5"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
